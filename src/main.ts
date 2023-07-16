@@ -8,7 +8,8 @@ AppDataSource.initialize()
   .then(() => {
     console.log('Database connect success')
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err)
     console.log('Database connect not success')
   })
 async function bootstrap() {
