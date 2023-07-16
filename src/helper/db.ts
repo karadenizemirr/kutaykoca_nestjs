@@ -18,10 +18,10 @@ import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
-     host: "db-mysql-sfo3-63827-do-user-9457349-0.b.db.ondigitalocean.com",
+     host: "db-mysql-sfo3-96391-do-user-9457349-0.b.db.ondigitalocean.com",
      port: 25060,
      username: "doadmin",
-     password: "AVNS_JWionXfMubhSNVSto-u",
+     password: "AVNS_eaRHq9pmkLdsEiMAK-l",
      database: "kutaykoca",
      entities: [Location, Station],
      migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
