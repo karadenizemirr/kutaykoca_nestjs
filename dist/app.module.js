@@ -10,16 +10,16 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const location_controller_1 = require("./controller/location/location.controller");
 const scraper_service_1 = require("./services/scraper.service");
 const knn_service_1 = require("./services/knn.service");
-const station_controller_1 = require("./controller/station/station.controller");
+const rotation_module_1 = require("./controller/rotation/rotation.module");
+const location_module_1 = require("./controller/location/location.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
-        controllers: [app_controller_1.AppController, location_controller_1.LocationController, station_controller_1.StationController],
+        imports: [rotation_module_1.RotationModel, location_module_1.LocationModule],
+        controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, scraper_service_1.ScraperService, knn_service_1.KnnService],
     })
 ], AppModule);
