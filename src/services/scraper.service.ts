@@ -104,4 +104,39 @@ export class ScraperService {
             }, HttpStatus.BAD_GATEWAY)
         }
     }
+
+    // Create Route Code
+    public async createRouteCode(){
+        try{
+
+            const allRouteCode = []
+
+            const baseLocation = await this._locationList()
+            await Promise.all(baseLocation.map(async (result:any) => {
+                const httpsAgent = this.httpsAgent;
+                const URL = this.BASE_URL + this.getLocationRotationURL + result.seo;
+                const response = await axios.get(URL, {
+                    httpsAgent
+                });
+
+                // Create RouteCode
+                const regex = /routeCode":\s*"([^"]+)"/
+                const match = response.data.match(regex);
+
+                if(match){
+                    allRouteCode.push({
+                        "routeCode": match[1].split(","),
+                        "station": result.seo 
+                    })
+                }
+
+            }))
+            
+            return allRouteCode
+
+
+        }catch(err){
+            throw new HttpException({}, HttpStatus.BAD_REQUEST)
+        }
+    }
 }

@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocationController = void 0;
 const common_1 = require("@nestjs/common");
@@ -22,16 +25,23 @@ let LocationController = exports.LocationController = class LocationController {
     async getAllLocation() {
         try {
             const data = await this.scraperService._locationDetail();
-            data.flatMap(child => child).forEach((item) => {
+            data.flatMap(child => child).forEach(async (item) => {
                 const jsonData = JSON.parse(JSON.stringify(item));
                 const saveData = {
                     "mapLong": jsonData.mapLong,
                     "mapLat": jsonData.mapLat,
                     "name": jsonData.name
                 };
-                this.locationRepository.save(saveData, {
-                    flush: true
-                });
+                const existingLocation = await this.locationRepository
+                    .createQueryBuilder('location')
+                    .where('location.name LIKE :partialValue', { partialValue: `%${saveData.name}%` })
+                    .getMany();
+                if (!existingLocation) {
+                    this.locationRepository.save(saveData, {
+                        flush: true
+                    });
+                    this.gData = data;
+                }
             });
             return {
                 "message": "Get all location success",
@@ -39,10 +49,27 @@ let LocationController = exports.LocationController = class LocationController {
             };
         }
         catch (err) {
-            console.log(err);
             throw new common_1.HttpException({
                 "message": "not success",
                 "err": "get all location error"
+            }, common_1.HttpStatus.BAD_GATEWAY);
+        }
+    }
+    async getLocationById(name) {
+        try {
+            const getData = await this.locationRepository
+                .createQueryBuilder('location')
+                .where('location.name LIKE :partialValue', { partialValue: `%${name.name}%` })
+                .getMany();
+            return {
+                "message": "success",
+                "data": getData
+            };
+        }
+        catch (err) {
+            console.log(err);
+            throw new common_1.HttpException({
+                "message": "get location by name error"
             }, common_1.HttpStatus.BAD_GATEWAY);
         }
     }
@@ -53,6 +80,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "getAllLocation", null);
+__decorate([
+    (0, common_1.Post)('get/byname'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], LocationController.prototype, "getLocationById", null);
 exports.LocationController = LocationController = __decorate([
     (0, common_1.Controller)('location'),
     __metadata("design:paramtypes", [scraper_service_1.ScraperService])

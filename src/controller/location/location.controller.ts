@@ -3,7 +3,7 @@ including scraping location data and saving it to a database. */
 
 /* LocationController sınıfı, konumlarla ilgili HTTP isteklerini işlemekten sorumludur,
 konum verilerinin kazınması ve bir veritabanına kaydedilmesi dahil. */
-import { Controller, Get, HttpException, HttpStatus } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
 import { AppDataSource } from "src/helper/db";
 import { Location } from "src/entities/location.entity";
 import { ScraperService } from "src/services/scraper.service";
@@ -12,7 +12,8 @@ import { ScraperService } from "src/services/scraper.service";
 export class LocationController {
 
     private locationRepository:any
-    
+    private gData:any
+
     constructor(
         private scraperService :ScraperService
         ){
@@ -33,7 +34,8 @@ export class LocationController {
             const data = await this.scraperService._locationDetail()
             // Save Database
 
-            data.flatMap(child => child).forEach((item) => {
+
+            data.flatMap(child => child).forEach(async (item) => {
                 
                 const jsonData = JSON.parse(JSON.stringify(item))
                 const saveData = {
@@ -41,25 +43,53 @@ export class LocationController {
                     "mapLat": jsonData.mapLat,
                     "name": jsonData.name
                 }
-                // 
-                this.locationRepository.save(saveData, {
-                    flush: true
-                })
+                // Unique Control
+                const existingLocation = await this.locationRepository
+                .createQueryBuilder('location')
+                .where('location.name LIKE :partialValue', { partialValue: `%${saveData.name}%` })
+                .getMany()
 
+                if(!existingLocation){
+                    this.locationRepository.save(saveData, {
+                        flush: true
+                    })
+                    this.gData = data
+                }
             })
             
-
             return {
                 "message": "Get all location success",
                 "data": data
             }
 
         }catch(err){
-            console.log(err)
             throw new HttpException({
                 "message": "not success",
                 "err": "get all location error"
             }, HttpStatus.BAD_GATEWAY)
+
         }
      }
+     @Post('get/byname')
+     async getLocationById(@Body() name:any){
+         try{
+            
+            const getData = await this.locationRepository
+            .createQueryBuilder('location')
+            .where('location.name LIKE :partialValue', { partialValue: `%${name.name}%` })
+            .getMany()
+            
+            return {
+                "message": "success",
+                "data": getData
+            }
+
+         }catch(err){
+            console.log(err)
+            throw new HttpException({
+                "message": "get location by name error"
+            }, HttpStatus.BAD_GATEWAY)
+         }
+     }
+     
 }

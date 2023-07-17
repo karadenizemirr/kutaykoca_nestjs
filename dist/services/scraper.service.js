@@ -59,6 +59,31 @@ class ScraperService {
             }, common_1.HttpStatus.BAD_GATEWAY);
         }
     }
+    async createRouteCode() {
+        try {
+            const allRouteCode = [];
+            const baseLocation = await this._locationList();
+            await Promise.all(baseLocation.map(async (result) => {
+                const httpsAgent = this.httpsAgent;
+                const URL = this.BASE_URL + this.getLocationRotationURL + result.seo;
+                const response = await axios_1.default.get(URL, {
+                    httpsAgent
+                });
+                const regex = /routeCode":\s*"([^"]+)"/;
+                const match = response.data.match(regex);
+                if (match) {
+                    allRouteCode.push({
+                        "routeCode": match[1].split(","),
+                        "station": result.seo
+                    });
+                }
+            }));
+            return allRouteCode;
+        }
+        catch (err) {
+            throw new common_1.HttpException({}, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 exports.ScraperService = ScraperService;
 //# sourceMappingURL=scraper.service.js.map

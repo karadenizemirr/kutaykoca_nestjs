@@ -6,4 +6,5 @@ export declare class ScraperService {
     locationDetailList: string[];
     private _locationList;
     _locationDetail(): Promise<string[]>;
+    createRouteCode(): Promise<any[]>;
 }
