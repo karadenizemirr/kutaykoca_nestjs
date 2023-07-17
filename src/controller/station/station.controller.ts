@@ -25,31 +25,25 @@ export class StationController {
    /* `@Post('calculate')` dekoratörü `calculate` için bir HTTP POST rotası tanımlamak için kullanılır
    metodunu `StationController` sınıfında kullanabilirsiniz. Bu, `StationController` sınıfına bir POST isteği yapıldığında
    '/station/calculate' uç noktası, bu yöntem çalıştırılacaktır. */
-    @Get('calculate')
-    async getCalculate(){
-        return {
-            "message": "welcome to rotation calculate app"
+        
+   @Post('calculate')
+    async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
+        try{
+
+            // Get All Station
+            const allLocation = await this.locationRepository.find()
+            
+            const data = await this.knnService.createRotator(allLocation, myLocaiton)
+
+            return {
+                "message": "ratation calculate success",
+                "data": data
+            }
+
+        }catch(err){
+            throw new HttpException({
+                "message": "Distance calculate error"
+            }, HttpStatus.BAD_REQUEST)
         }
     }
-    
-//    @Post('calculate')
-//     async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
-//         try{
-
-//             // Get All Station
-//             const allLocation = await this.locationRepository.find()
-            
-//             const data = await this.knnService.createRotator(allLocation, myLocaiton)
-
-//             return {
-//                 "message": "ratation calculate success",
-//                 "data": data
-//             }
-
-//         }catch(err){
-//             throw new HttpException({
-//                 "message": "Distance calculate error"
-//             }, HttpStatus.BAD_REQUEST)
-//         }
-//     }
 }
