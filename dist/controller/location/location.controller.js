@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const db_1 = require("../../helper/db");
 const location_entity_1 = require("../../entities/location.entity");
 const scraper_service_1 = require("../../services/scraper.service");
+const typeorm_1 = require("typeorm");
 let LocationController = exports.LocationController = class LocationController {
     constructor(scraperService) {
         this.scraperService = scraperService;
@@ -32,16 +33,13 @@ let LocationController = exports.LocationController = class LocationController {
                     "mapLat": jsonData.mapLat,
                     "name": jsonData.name
                 };
-                const existingLocation = await this.locationRepository
-                    .createQueryBuilder('location')
-                    .where('location.name LIKE :partialValue', { partialValue: `%${saveData.name}%` })
-                    .getMany();
-                if (!existingLocation) {
-                    this.locationRepository.save(saveData, {
-                        flush: true
-                    });
-                    this.gData = data;
+                if (typeorm_1.QueryFailedError) {
+                    return;
                 }
+                this.locationRepository.save(saveData, {
+                    flush: true
+                });
+                this.gData = saveData;
             });
             return {
                 "message": "Get all location success",

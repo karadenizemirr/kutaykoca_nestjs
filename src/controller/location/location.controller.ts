@@ -7,6 +7,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from "@
 import { AppDataSource } from "src/helper/db";
 import { Location } from "src/entities/location.entity";
 import { ScraperService } from "src/services/scraper.service";
+import { QueryFailedError } from "typeorm";
 
 @Controller('location')
 export class LocationController {
@@ -38,23 +39,21 @@ export class LocationController {
             data.flatMap(child => child).forEach(async (item) => {
                 
                 const jsonData = JSON.parse(JSON.stringify(item))
+                // Unique Control
                 const saveData = {
                     "mapLong" : jsonData.mapLong,
                     "mapLat": jsonData.mapLat,
                     "name": jsonData.name
                 }
-                // Unique Control
-                const existingLocation = await this.locationRepository
-                .createQueryBuilder('location')
-                .where('location.name LIKE :partialValue', { partialValue: `%${saveData.name}%` })
-                .getMany()
-
-                if(!existingLocation){
-                    this.locationRepository.save(saveData, {
-                        flush: true
-                    })
-                    this.gData = data
+                if (QueryFailedError){
+                    return;
                 }
+                this.locationRepository.save(saveData, {
+                    flush: true
+                })
+
+                this.gData = saveData
+                
             })
             
             return {
