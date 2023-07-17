@@ -25,6 +25,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
+    "geolib": "^3.3.4",
     "https": "^1.0.0",
     "https-agent": "^1.0.0",
     "mysql": "^2.18.1",

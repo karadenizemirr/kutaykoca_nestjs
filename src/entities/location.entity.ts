@@ -11,10 +11,10 @@ export class Location {
     name: string
 
     @Column()
-    lat: string
+    mapLat: string
 
     @Column()
-    long: string
+    mapLong: string
 
     @CreateDateColumn()
     createdAt: Date;

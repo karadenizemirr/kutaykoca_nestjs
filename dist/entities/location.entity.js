@@ -24,11 +24,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Location.prototype, "lat", void 0);
+], Location.prototype, "mapLat", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Location.prototype, "long", void 0);
+], Location.prototype, "mapLong", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
