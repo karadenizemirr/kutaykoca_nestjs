@@ -12,6 +12,7 @@ import { ScraperService } from "src/services/scraper.service";
 export class LocationController {
 
     private locationRepository:any
+    
     constructor(
         private scraperService :ScraperService
         ){
