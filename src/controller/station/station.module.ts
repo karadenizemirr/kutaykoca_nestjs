@@ -11,6 +11,6 @@ import { KnnService } from "src/services/knn.service";
  */
 @Module({
     controllers: [StationController],
-    providers: [KnnService],
+    providers: [],
 })
 export class StationModule {}

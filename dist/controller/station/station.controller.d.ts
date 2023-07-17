@@ -3,19 +3,7 @@ export declare class StationController {
     private knnService;
     private locationRepository;
     constructor(knnService: KnnService);
-    calculate(myLocaiton: {
-        latitude: string;
-        longitude: string;
-    }): Promise<{
+    getCalculate(): Promise<{
         message: string;
-        data: {
-            distance: {
-                name: any;
-                latitude: any;
-                longitude: any;
-                distance: string;
-            };
-            rotation: any;
-        };
     }>;
 }
