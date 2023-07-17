@@ -9,12 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationModule = void 0;
 const common_1 = require("@nestjs/common");
 const station_controller_1 = require("./station.controller");
+const knn_service_1 = require("../../services/knn.service");
 let StationModule = exports.StationModule = class StationModule {
 };
 exports.StationModule = StationModule = __decorate([
     (0, common_1.Module)({
+        imports: [],
         controllers: [station_controller_1.StationController],
-        providers: [],
+        providers: [knn_service_1.KnnService],
     })
 ], StationModule);
 //# sourceMappingURL=station.module.js.map
