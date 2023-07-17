@@ -26,7 +26,7 @@ export class StationController {
    metodunu `StationController` sınıfında kullanabilirsiniz. Bu, `StationController` sınıfına bir POST isteği yapıldığında
    '/station/calculate' uç noktası, bu yöntem çalıştırılacaktır. */
     
-   @Post('')
+   @Post('calculate')
     async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
         try{
 
