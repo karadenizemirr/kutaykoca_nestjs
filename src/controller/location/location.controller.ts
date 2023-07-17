@@ -1,3 +1,8 @@
+/* The LocationController class is responsible for handling HTTP requests related to locations,
+including scraping location data and saving it to a database. */
+
+/* LocationController sınıfı, konumlarla ilgili HTTP isteklerini işlemekten sorumludur,
+konum verilerinin kazınması ve bir veritabanına kaydedilmesi dahil. */
 import { Controller, Get, HttpException, HttpStatus } from "@nestjs/common";
 import { AppDataSource } from "src/helper/db";
 import { Location } from "src/entities/location.entity";
@@ -14,6 +19,12 @@ export class LocationController {
         }
     
 
+     /* The `@Get('get/all')` decorator is used to define the HTTP route for this method. It specifies
+     that this method should be called when a GET request is made to the '/location/get/all'
+     endpoint. */
+
+     /* `@Get('get/all')` dekoratörü bu yöntemin HTTP rotasını tanımlamak için kullanılır. Şunları belirtir
+     '/location/get/all' adresine bir GET isteği yapıldığında bu yöntemin çağrılması gerektiğini belirtir. */
      @Get('get/all')
      async getAllLocation(){
         try{

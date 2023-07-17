@@ -19,3 +19,9 @@ export class Location {
     @CreateDateColumn()
     createdAt: Date;
 }
+
+/* Yukarıdaki sınıf id, name, mapLat, mapLong gibi özelliklere sahip bir Konum varlığını temsil eder.
+createdAt. */
+
+/* The above class represents a Location entity with properties such as id, name, mapLat, mapLong, and
+createdAt. */

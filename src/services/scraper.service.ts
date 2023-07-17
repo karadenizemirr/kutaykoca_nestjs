@@ -1,3 +1,8 @@
+/* The ScraperService class is a TypeScript class that retrieves location details from a website using
+Axios and Cheerio. */
+
+/* ScraperService sınıfı, bir web sitesinden konum ayrıntılarını alan bir TypeScript sınıfıdır.
+Axios ve Cheerio. */
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import axios from "axios";
 import * as https from 'https'
@@ -16,6 +21,19 @@ export class ScraperService {
     // Get Base Location List
 
 
+    /**
+     * Retrieves the location list from the API endpoint.
+     *
+     * @return {Promise} A promise that resolves with the location list data.
+     * @throws {HttpException} Throws an exception if there is an error retrieving the location list.
+     */
+
+    /**
+     * Konum listesini API uç noktasından alır.
+     *
+     * @return {Promise} Konum listesi verileriyle çözümlenen bir promise.
+     * @throws {HttpException} Konum listesi alınırken bir hata oluşursa bir istisna atar.
+     */
     private async _locationList(){
         try{
 
@@ -35,6 +53,17 @@ export class ScraperService {
     }
 
 
+    /**
+     * Fetches the location details.
+     *
+     * @return {Promise<any[]>} An array of location details.
+     */
+
+    /**
+     * Konum ayrıntılarını getirir.
+     *
+     * @return {Promise<any[]>} Bir dizi konum detayı.
+     */
     public async _locationDetail(){
         try{
 
