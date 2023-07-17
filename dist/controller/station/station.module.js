@@ -14,7 +14,6 @@ let StationModule = exports.StationModule = class StationModule {
 };
 exports.StationModule = StationModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
         controllers: [station_controller_1.StationController],
         providers: [knn_service_1.KnnService],
     })

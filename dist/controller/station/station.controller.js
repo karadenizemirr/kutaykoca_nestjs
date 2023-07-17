@@ -32,6 +32,7 @@ let StationController = exports.StationController = class StationController {
             };
         }
         catch (err) {
+            console.log(err);
             throw new common_1.HttpException({
                 "message": "Distance calculate error"
             }, common_1.HttpStatus.BAD_REQUEST);

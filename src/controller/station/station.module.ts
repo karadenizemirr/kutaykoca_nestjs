@@ -10,7 +10,6 @@ import { KnnService } from "src/services/knn.service";
  * İstasyon özelliği için rotaları ve sağlayıcıları tanımlayan modül.
  */
 @Module({
-    imports: [],
     controllers: [StationController],
     providers: [KnnService],
 })
