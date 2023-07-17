@@ -32,24 +32,24 @@ export class StationController {
         }
     }
     
-   @Post('calculate')
-    async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
-        try{
+//    @Post('calculate')
+//     async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
+//         try{
 
-            // Get All Station
-            const allLocation = await this.locationRepository.find()
+//             // Get All Station
+//             const allLocation = await this.locationRepository.find()
             
-            const data = await this.knnService.createRotator(allLocation, myLocaiton)
+//             const data = await this.knnService.createRotator(allLocation, myLocaiton)
 
-            return {
-                "message": "ratation calculate success",
-                "data": data
-            }
+//             return {
+//                 "message": "ratation calculate success",
+//                 "data": data
+//             }
 
-        }catch(err){
-            throw new HttpException({
-                "message": "Distance calculate error"
-            }, HttpStatus.BAD_REQUEST)
-        }
-    }
+//         }catch(err){
+//             throw new HttpException({
+//                 "message": "Distance calculate error"
+//             }, HttpStatus.BAD_REQUEST)
+//         }
+//     }
 }
