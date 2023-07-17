@@ -25,7 +25,8 @@ export class StationController {
    /* `@Post('calculate')` dekoratörü `calculate` için bir HTTP POST rotası tanımlamak için kullanılır
    metodunu `StationController` sınıfında kullanabilirsiniz. Bu, `StationController` sınıfına bir POST isteği yapıldığında
    '/station/calculate' uç noktası, bu yöntem çalıştırılacaktır. */
-    @Post('calculate')
+    
+   @Post('')
     async calculate(@Body() myLocaiton:{latitude: string, longitude: string}){
         try{
 
